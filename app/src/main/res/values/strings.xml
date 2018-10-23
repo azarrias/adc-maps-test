@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">My Maps</string>
     <string name="btnMap">Display map</string>
+    <string name="lblLatitude">Latitude</string>
+    <string name="lblLongitude">Longitude</string>
+    <string name="btnSendInfo">Send Data</string>
 </resources>

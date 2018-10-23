@@ -1,39 +1,47 @@
 package es.pue.android.mymaps;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnDisplayMap;
+    EditText etLatitude;
+    EditText etLongitude;
+    GeoCoord coord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnDisplayMap = (Button)findViewById(R.id.btnDisplayMap);
+        etLatitude = (EditText)findViewById(R.id.etLatitude);
+        etLongitude = (EditText)findViewById(R.id.etLongitude);
 
-        btnDisplayMap.setOnClickListener(new View.OnClickListener() {
+        Button btnSendInfo = (Button)findViewById(R.id.btnSendInfo);
+        btnSendInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayMap();
+                coord = getData();
+                sendInfo(coord);
             }
         });
     }
 
-    private void displayMap(){
-        double lat = 41.4920189;
-        double lon = 2.3513412;
+    private GeoCoord getData(){
+        String latitude = etLatitude.getText().toString();
+        String longitude = etLongitude.getText().toString();
 
-        Intent i = new Intent();
-        i.setAction(Intent.ACTION_VIEW);
-        i.setData(Uri.parse("geo:" + lat + "," + lon));
+        GeoCoord coord = new GeoCoord(latitude, longitude);
+        return coord;
+    }
 
+    private void sendInfo(GeoCoord info){
+        Intent i = new Intent(this, MapActivity.class);
+        i.putExtra("GeoCoord", info);
         startActivity(i);
     }
 }
