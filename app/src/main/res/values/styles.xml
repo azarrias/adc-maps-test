@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="label_map">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/red_color</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>
