@@ -13,13 +13,17 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class MapActivity extends AppCompatActivity {
 
+    private List<String> cities;
     private Button btnDisplayMap;
 
-    List<String> cities = new ArrayList<>();
+    Map<String, GeoCoord> citiesDict = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +44,10 @@ public class MapActivity extends AppCompatActivity {
             }
         });
 
-        cities.add("Barcelona");
-        cities.add("Basilea");
-        cities.add("Berlin");
-        cities.add("Madrid");
-        cities.add("Lucerna");
+        loadData();
+        Set<String> dictKeys = citiesDict.keySet();
+
+        cities = new ArrayList<>(dictKeys);
 
         ListView citiesView = (ListView)findViewById((R.id.lstCitites));
 
@@ -63,6 +66,19 @@ public class MapActivity extends AppCompatActivity {
                 cities);
 
         citiesView.setAdapter(adapter);
+    }
+
+    private void loadData(){
+        citiesDict.put("Barcelona", new GeoCoord(String.valueOf(41.3947688),
+                String.valueOf(2.0787282)));
+        citiesDict.put("Basilea", new GeoCoord(String.valueOf(47.5545753),
+                String.valueOf(7.524419)));
+        citiesDict.put("Berlin", new GeoCoord(String.valueOf(52.5065132),
+                String.valueOf(13.144537)));
+        citiesDict.put("New Orleans", new GeoCoord(String.valueOf(30.0326995),
+                String.valueOf(-90.1627783)));
+        citiesDict.put("Tokio", new GeoCoord(String.valueOf(35.6730184),
+                String.valueOf(139.4301774)));
     }
 
     private void displayMap(double lat, double lon){
