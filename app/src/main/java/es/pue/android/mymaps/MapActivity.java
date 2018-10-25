@@ -21,7 +21,6 @@ import java.util.Set;
 public class MapActivity extends AppCompatActivity {
 
     private List<String> cities;
-    private Button btnDisplayMap;
 
     Map<String, GeoCoord> citiesDict = new HashMap<>();
 
@@ -30,31 +29,20 @@ public class MapActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        Intent i = getIntent();
-        Parcelable parcelableData = i.getParcelableExtra("GeoCoord");
-        final GeoCoord coord = (GeoCoord)parcelableData;
-
-        btnDisplayMap = (Button)findViewById(R.id.btnDisplayMap);
-
-        btnDisplayMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                displayMap(Double.valueOf(coord.getLatitude()),
-                        Double.valueOf(coord.getLongitude()));
-            }
-        });
-
         loadData();
         Set<String> dictKeys = citiesDict.keySet();
 
         cities = new ArrayList<>(dictKeys);
 
-        ListView citiesView = (ListView)findViewById((R.id.lstCitites));
+        ListView citiesView = (ListView)findViewById((R.id.lstCities));
 
         AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MapActivity.this, "Ciudad:" + cities.get(position), Toast.LENGTH_LONG).show();
+                String selectedCity = cities.get(position);
+                Toast.makeText(MapActivity.this, "Ciudad:" + selectedCity, Toast.LENGTH_LONG).show();
+                GeoCoord gc = citiesDict.get(selectedCity);
+                displayMap(gc);
             }
         };
 
@@ -85,6 +73,14 @@ public class MapActivity extends AppCompatActivity {
         Intent i = new Intent();
         i.setAction(Intent.ACTION_VIEW);
         i.setData(Uri.parse("geo:" + lat + "," + lon));
+
+        startActivity(i);
+    }
+
+    private void displayMap(GeoCoord coord){
+        Intent i = new Intent();
+        i.setAction(Intent.ACTION_VIEW);
+        i.setData(Uri.parse("geo:" + coord.getLatitude() + "," + coord.getLongitude()));
 
         startActivity(i);
     }
