@@ -58,7 +58,8 @@ public class MapActivity extends AppCompatActivity {
         citiesView.setOnItemClickListener(listener);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1,
+                R.layout.item_list,
+                R.id.textView,
                 cities);
 
         citiesView.setAdapter(adapter);
